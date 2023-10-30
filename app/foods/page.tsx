@@ -1,9 +1,9 @@
 import FoodStateBadge from "@/components/FoodStatusBadge";
 import prisma from "@/lib/prisma";
-import { Button, Table } from "@radix-ui/themes";
+import { Table } from "@radix-ui/themes";
+import Link from "@/components/Link";
 import delay from "delay";
 
-import Link from "next/link";
 import React from "react";
 import FoodActions from "./FoodActions";
 
