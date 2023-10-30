@@ -12,3 +12,18 @@ datasource db {
 
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
+
+model Food {
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(255)
+  description String   @db.Text
+  status      Status   @default(ORGANIC)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum Status {
+  ORGANIC
+  GENETICALLY_MODIFIED
+  INORGANIC
+}
