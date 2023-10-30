@@ -31,7 +31,7 @@ export default async function Foods() {
             return (
               <Table.Row key={id}>
                 <Table.Cell>
-                  {title}
+                  <Link href={`/foods/${id}`}>{title}</Link>
                   <div className="block md:hidden">
                     <FoodStateBadge status={status} />
                   </div>
