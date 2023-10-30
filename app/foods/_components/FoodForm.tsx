@@ -10,13 +10,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FoodForm, createFoodSchema } from "@/lib/validationSchema";
 import ErrorMessage from "@/components/ErrorMessage";
 import Spinner from "@/components/Spinner";
+import SimpleMDE from "react-simplemde-editor";
 
-import dynamic from "next/dynamic";
 import { Food } from "@prisma/client";
 
-const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
-  ssr: false,
-});
+// const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+//   ssr: false,
+// });
 
 interface FoodFormProps {
   food?: Food;
@@ -42,6 +42,7 @@ export default function FoodForm({ food }: FoodFormProps) {
       if (food) await axios.patch("/api/foods/" + food.id, data);
       else await axios.post("/api/foods", data);
       router.push("/foods");
+      router.refresh();
     } catch (error) {
       setIsSubmitting(false);
       setError("An unexpected error occurred");

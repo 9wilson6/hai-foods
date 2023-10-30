@@ -1,7 +1,14 @@
 import prisma from "@/lib/prisma";
 import React from "react";
-import FoodForm from "../../_components/FoodForm";
+
 import { notFound } from "next/navigation";
+import dynamic from "next/dynamic";
+import FoodFormSkeleton from "../loading";
+
+const FoodForm = dynamic(() => import("@/app/foods/_components/FoodForm"), {
+  ssr: false,
+  loading: () => <FoodFormSkeleton />,
+});
 
 interface EditFoodPageProps {
   params: { id: string };

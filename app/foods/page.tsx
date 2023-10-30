@@ -2,14 +2,12 @@ import FoodStateBadge from "@/components/FoodStatusBadge";
 import prisma from "@/lib/prisma";
 import { Table } from "@radix-ui/themes";
 import Link from "@/components/Link";
-import delay from "delay";
-
 import React from "react";
 import FoodActions from "./FoodActions";
 
-export default async function Foods() {
+async function Foods() {
   const foods = await prisma.food.findMany({});
-  await delay(2000);
+
   return (
     <div>
       <FoodActions />
@@ -50,3 +48,7 @@ export default async function Foods() {
     </div>
   );
 }
+
+export const dynamic = "force-dynamic";
+
+export default Foods;
