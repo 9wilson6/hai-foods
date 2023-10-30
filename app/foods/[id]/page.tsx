@@ -3,6 +3,7 @@ import prisma from "@/lib/prisma";
 import { Card, Flex, Heading, Text } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
 import React from "react";
+import ReactMarkdown from "react-markdown";
 
 interface FoodDetailProps {
   params: { id: string };
@@ -23,8 +24,8 @@ export default async function FoodDetail({ params }: FoodDetailProps) {
         <FoodStateBadge status={singleFood.status} />
         <Text>{singleFood.createdAt.toDateString()}</Text>
       </Flex>
-      <Card>
-        <p>{singleFood.description}</p>
+      <Card className="prose" mt="4">
+        <ReactMarkdown>{singleFood.description}</ReactMarkdown>
       </Card>
     </div>
   );
