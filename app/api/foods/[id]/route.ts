@@ -31,3 +31,23 @@ export async function PATCH(
 
   return NextResponse.json(updatedFood);
 }
+
+// Delete Food
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const food = await prisma.food.findUnique({
+    where: { id: parseInt(params.id) },
+  });
+
+  if (!food) {
+    return NextResponse.json({ error: "Invalid Food" }, { status: 404 });
+  }
+
+  await prisma.food.delete({
+    where: { id: food.id },
+  });
+
+  return NextResponse.json({});
+}
