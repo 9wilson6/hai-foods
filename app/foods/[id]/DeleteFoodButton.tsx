@@ -30,8 +30,8 @@ export default function DeleteFoodButton({ foodId }: Props) {
           <AlertDialog.Action>
             <Button
               color="red"
-              onClick={() => {
-                axios.delete("/api/foods/" + foodId);
+              onClick={async () => {
+                await axios.delete("/api/foods/" + foodId);
                 router.push("/foods");
                 router.refresh();
               }}
