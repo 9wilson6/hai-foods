@@ -1,4 +1,6 @@
+import FoodStateBadge from "@/components/FoodStatusBadge";
 import prisma from "@/lib/prisma";
+import { Card, Flex, Heading, Text } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
 import React from "react";
 
@@ -7,7 +9,6 @@ interface FoodDetailProps {
 }
 
 export default async function FoodDetail({ params }: FoodDetailProps) {
-  if (typeof params.id !== "number") notFound();
   const singleFood = await prisma.food.findUnique({
     where: { id: parseInt(params?.id) },
   });
@@ -17,10 +18,14 @@ export default async function FoodDetail({ params }: FoodDetailProps) {
   }
   return (
     <div>
-      <p>{singleFood.title}</p>
-      <p>{singleFood.description}</p>
-      <p>{singleFood.status}</p>
-      <p>{singleFood.createdAt.toDateString()}</p>
+      <Heading>{singleFood.title}</Heading>
+      <Flex className="space-x-4" my="3">
+        <FoodStateBadge status={singleFood.status} />
+        <Text>{singleFood.createdAt.toDateString()}</Text>
+      </Flex>
+      <Card>
+        <p>{singleFood.description}</p>
+      </Card>
     </div>
   );
 }
