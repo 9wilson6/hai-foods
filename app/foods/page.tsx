@@ -1,3 +1,4 @@
+import FoodStateBadge from "@/components/FoodStatusBadge";
 import prisma from "@/lib/prisma";
 import { Button, Table } from "@radix-ui/themes";
 import Link from "next/link";
@@ -31,10 +32,12 @@ export default async function Foods() {
               <Table.Row key={id}>
                 <Table.Cell>
                   {title}
-                  <div className="block md:hidden">{status}</div>
+                  <div className="block md:hidden">
+                    <FoodStateBadge status={status} />
+                  </div>
                 </Table.Cell>
                 <Table.Cell className="hidden md:table-cell">
-                  {status}
+                  <FoodStateBadge status={status} />
                 </Table.Cell>
                 <Table.Cell className="hidden md:table-cell">
                   {createdAt.toDateString()}
