@@ -1,11 +1,12 @@
 import prisma from "@/lib/prisma";
-import { Box, Grid } from "@radix-ui/themes";
+import { Box, Flex, Grid } from "@radix-ui/themes";
 
 import { notFound } from "next/navigation";
 import React from "react";
 
 import EditIssueButton from "./EditIssueButton";
 import FoodDetails from "./FoodDetails";
+import DeleteFoodButton from "./DeleteFoodButton";
 
 interface FoodDetailProps {
   params: { id: string };
@@ -21,12 +22,15 @@ export default async function FoodDetail({ params }: FoodDetailProps) {
   }
 
   return (
-    <Grid columns={{ initial: "1", md: "2" }} gap="5">
-      <Box>
+    <Grid columns={{ initial: "1", sm: "5" }} gap="5">
+      <Box className="md:col-span-4">
         <FoodDetails food={singleFood} />
       </Box>
       <Box>
-        <EditIssueButton foodId={singleFood.id} />
+        <Flex direction="column" gap="4">
+          <EditIssueButton foodId={singleFood.id} />
+          <DeleteFoodButton foodId={singleFood.id} />
+        </Flex>
       </Box>
     </Grid>
   );

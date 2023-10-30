@@ -12,7 +12,7 @@ export default function FoodDetails({ food }: { food: Food }) {
         <FoodStateBadge status={food.status} />
         <Text>{food.createdAt.toDateString()}</Text>
       </Flex>
-      <Card className="prose" mt="4">
+      <Card className="prose max-w-full" mt="4">
         <ReactMarkdown>{food.description}</ReactMarkdown>
       </Card>
     </>

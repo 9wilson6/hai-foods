@@ -10,7 +10,7 @@ export default function Navbar() {
   const pathname = usePathname();
 
   return (
-    <nav className="flex space-x-6 border-b mb-5 px-5 h-14 items-center">
+    <nav className="flex space-x-6 border-b mb-5 h-14 items-center">
       <Link href="/" className="flex gap-2 items-center">
         <MdFoodBank size={18} />
         {navItems.logo}
