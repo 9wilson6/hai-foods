@@ -1,11 +1,6 @@
 import prisma from "@/lib/prisma";
+import { createFoodSchema } from "@/lib/validationSchema";
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
-
-const createFoodSchema = z.object({
-  title: z.string().min(1, "Title is required").max(255),
-  description: z.string().min(1),
-});
 
 export async function POST(req: NextRequest) {
   const body = await req.json();

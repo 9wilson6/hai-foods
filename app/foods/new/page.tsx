@@ -1,19 +1,23 @@
 "use client";
-import { Button, Callout, TextField } from "@radix-ui/themes";
+import { Button, Callout, Text, TextField } from "@radix-ui/themes";
 import { useForm, Controller } from "react-hook-form";
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
-interface NewFoodPageProps {
-  title: string;
-  description: string;
-}
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FoodForm, createFoodSchema } from "@/lib/validationSchema";
 
 export default function NewFoodPage() {
-  const { register, control, handleSubmit } = useForm<NewFoodPageProps>();
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FoodForm>({
+    resolver: zodResolver(createFoodSchema),
+  });
 
   const router = useRouter();
 
@@ -39,6 +43,11 @@ export default function NewFoodPage() {
         <TextField.Root>
           <TextField.Input placeholder="Title" {...register("title")} />
         </TextField.Root>
+        {errors.title && (
+          <Text color="red" as="p">
+            {errors.title.message}
+          </Text>
+        )}
         <Controller
           name="description"
           control={control}
@@ -46,6 +55,11 @@ export default function NewFoodPage() {
             <SimpleMDE placeholder="Description" {...field} />
           )}
         />
+        {errors.description && (
+          <Text color="red" as="p">
+            {errors.description.message}
+          </Text>
+        )}
         <Button>Submit New Food</Button>
       </form>
     </div>
