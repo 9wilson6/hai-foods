@@ -39,7 +39,8 @@ export default function FoodForm({ food }: FoodFormProps) {
   const onSubmit = handleSubmit(async (data) => {
     try {
       setIsSubmitting(true);
-      await axios.post("/api/foods", data);
+      if (food) await axios.patch("/api/foods/" + food.id, data);
+      else await axios.post("/api/foods", data);
       router.push("/foods");
     } catch (error) {
       setIsSubmitting(false);
@@ -74,7 +75,8 @@ export default function FoodForm({ food }: FoodFormProps) {
 
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <Button disabled={isSubmitting}>
-          Submit New Food {isSubmitting && <Spinner />}
+          {food ? "Update Food" : "Submit New Food"}{" "}
+          {isSubmitting && <Spinner />}
         </Button>
       </form>
     </div>
