@@ -9,6 +9,7 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FoodForm, createFoodSchema } from "@/lib/validationSchema";
 import ErrorMessage from "@/components/ErrorMessage";
+import Spinner from "@/components/Spinner";
 
 export default function NewFoodPage() {
   const {
@@ -23,6 +24,18 @@ export default function NewFoodPage() {
   const router = useRouter();
 
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      setIsSubmitting(true);
+      await axios.post("/api/foods", data);
+      router.push("/foods");
+    } catch (error) {
+      setIsSubmitting(false);
+      setError("An unexpected error occurred");
+    }
+  });
   return (
     <div className="max-w-xl">
       {error && (
@@ -30,17 +43,7 @@ export default function NewFoodPage() {
           <Callout.Text>{error}</Callout.Text>
         </Callout.Root>
       )}
-      <form
-        onSubmit={handleSubmit(async (data) => {
-          try {
-            await axios.post("/api/foods", data);
-            router.push("/foods");
-          } catch (error) {
-            setError("An unexpected error occurred");
-          }
-        })}
-        className="space-y-3"
-      >
+      <form onSubmit={onSubmit} className="space-y-3">
         <TextField.Root>
           <TextField.Input placeholder="Title" {...register("title")} />
         </TextField.Root>
@@ -54,7 +57,9 @@ export default function NewFoodPage() {
         />
 
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
-        <Button>Submit New Food</Button>
+        <Button disabled={isSubmitting}>
+          Submit New Food {isSubmitting && <Spinner />}
+        </Button>
       </form>
     </div>
   );
