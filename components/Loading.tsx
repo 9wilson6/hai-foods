@@ -1,18 +1,13 @@
-import FoodStateBadge from "@/components/FoodStatusBadge";
-import prisma from "@/lib/prisma";
-import { Button, Table } from "@radix-ui/themes";
-import delay from "delay";
-
-import Link from "next/link";
+import { Table } from "@radix-ui/themes";
 import React from "react";
-import FoodActions from "./FoodActions";
+import FoodStateBadge from "./FoodStatusBadge";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
-export default async function Foods() {
-  const foods = await prisma.food.findMany({});
-  await delay(2000);
+export default function LoadingSkeleton() {
+  const foods = [12, 3, 4, 5, 6, 6];
   return (
     <div>
-      <FoodActions />
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
@@ -27,20 +22,14 @@ export default async function Foods() {
         </Table.Header>
         <Table.Body>
           {foods.map((food) => {
-            const { id, title, status, createdAt } = food;
             return (
-              <Table.Row key={id}>
-                <Table.Cell>
-                  {title}
-                  <div className="block md:hidden">
-                    <FoodStateBadge status={status} />
-                  </div>
+              <Table.Row key={food}>
+                <Table.Cell>{food}</Table.Cell>
+                <Table.Cell className="hidden md:table-cell">
+                  <Skeleton />
                 </Table.Cell>
                 <Table.Cell className="hidden md:table-cell">
-                  <FoodStateBadge status={status} />
-                </Table.Cell>
-                <Table.Cell className="hidden md:table-cell">
-                  {createdAt.toDateString()}
+                  <Skeleton />
                 </Table.Cell>
               </Table.Row>
             );
