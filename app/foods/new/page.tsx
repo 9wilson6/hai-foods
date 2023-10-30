@@ -1,7 +1,7 @@
 "use client";
 import { Button, Callout, Text, TextField } from "@radix-ui/themes";
 import { useForm, Controller } from "react-hook-form";
-import SimpleMDE from "react-simplemde-editor";
+
 import "easymde/dist/easymde.min.css";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -11,7 +11,11 @@ import { FoodForm, createFoodSchema } from "@/lib/validationSchema";
 import ErrorMessage from "@/components/ErrorMessage";
 import Spinner from "@/components/Spinner";
 import delay from "delay";
+import dynamic from "next/dynamic";
 
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+  ssr: false,
+});
 export default function NewFoodPage() {
   const {
     register,
