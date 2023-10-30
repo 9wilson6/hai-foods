@@ -1,5 +1,7 @@
 "use client";
 import { AlertDialog, Button, Flex } from "@radix-ui/themes";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 interface Props {
@@ -7,6 +9,7 @@ interface Props {
 }
 
 export default function DeleteFoodButton({ foodId }: Props) {
+  const router = useRouter();
   return (
     <AlertDialog.Root>
       <AlertDialog.Trigger>
@@ -25,7 +28,16 @@ export default function DeleteFoodButton({ foodId }: Props) {
             </Button>
           </AlertDialog.Cancel>
           <AlertDialog.Action>
-            <Button color="red">Delete Food</Button>
+            <Button
+              color="red"
+              onClick={() => {
+                axios.delete("/api/foods/" + foodId);
+                router.push("/foods");
+                router.refresh();
+              }}
+            >
+              Delete Food
+            </Button>
           </AlertDialog.Action>
         </Flex>
       </AlertDialog.Content>
