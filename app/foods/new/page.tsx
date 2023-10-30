@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FoodForm, createFoodSchema } from "@/lib/validationSchema";
 import ErrorMessage from "@/components/ErrorMessage";
 import Spinner from "@/components/Spinner";
+import delay from "delay";
 
 export default function NewFoodPage() {
   const {
@@ -36,6 +37,7 @@ export default function NewFoodPage() {
       setError("An unexpected error occurred");
     }
   });
+
   return (
     <div className="max-w-xl">
       {error && (

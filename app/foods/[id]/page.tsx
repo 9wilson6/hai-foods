@@ -17,6 +17,7 @@ export default async function FoodDetail({ params }: FoodDetailProps) {
   if (!singleFood) {
     notFound();
   }
+
   return (
     <div>
       <Heading>{singleFood.title}</Heading>
