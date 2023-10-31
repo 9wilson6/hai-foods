@@ -25,19 +25,21 @@ export default function AssigneeSelect({ food }: { food: Food }) {
     fetchUsers();
   }, []);
 
+  const assignFood = (userId: string) => {
+    axios
+      .patch("/api/foods/" + food.id, {
+        assignedToUserId: userId || null,
+      })
+      .catch(() => {
+        toast.error("Changes could not be saved");
+      });
+  };
+
   return (
     <>
       <Select.Root
         defaultValue={food.assignedToUserId || ""}
-        onValueChange={(userId) => {
-          try {
-            axios.patch("/api/foods/" + food.id, {
-              assignedToUserId: userId || null,
-            });
-          } catch (error) {
-            toast.error("Changes could not be saved");
-          }
-        }}
+        onValueChange={assignFood}
       >
         <Select.Trigger placeholder="Assign..." />
         <Select.Content>
