@@ -34,7 +34,7 @@ export default async function FoodDetail({ params }: FoodDetailProps) {
       {session && (
         <Box>
           <Flex direction="column" gap="5">
-            <AssigneeSelect />
+            <AssigneeSelect food={singleFood} />
             <EditIssueButton foodId={singleFood.id} />
             <DeleteFoodButton foodId={singleFood.id} />
           </Flex>

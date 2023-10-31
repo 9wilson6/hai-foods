@@ -1,10 +1,10 @@
 "use client";
-import { User } from "@prisma/client";
+import { Food, User } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-export default function AssigneeSelect() {
+export default function AssigneeSelect({ food }: { food: Food }) {
   //   const {
   //     data: users,
   //     error,
@@ -25,11 +25,19 @@ export default function AssigneeSelect() {
   }, []);
 
   return (
-    <Select.Root>
+    <Select.Root
+      defaultValue={food.assignedToUserId || ""}
+      onValueChange={(userId) => {
+        axios.patch("/api/foods/" + food.id, {
+          assignedToUserId: userId || null,
+        });
+      }}
+    >
       <Select.Trigger placeholder="Assign..." />
       <Select.Content>
         <Select.Group>
           <Select.Label>Suggestions</Select.Label>
+          <Select.Item value={"unassigned"}>Unassigned</Select.Item>
           {users.map((user) => {
             return (
               <Select.Item key={user.id} value={user.id}>
