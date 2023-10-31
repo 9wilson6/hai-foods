@@ -7,12 +7,16 @@ import React from "react";
 import EditIssueButton from "./EditIssueButton";
 import FoodDetails from "./FoodDetails";
 import DeleteFoodButton from "./DeleteFoodButton";
+import { getServerSession } from "next-auth";
+import authOptions from "@/lib/authOptions";
 
 interface FoodDetailProps {
   params: { id: string };
 }
 
 export default async function FoodDetail({ params }: FoodDetailProps) {
+  const session = await getServerSession(authOptions);
+
   const singleFood = await prisma.food.findUnique({
     where: { id: parseInt(params?.id) },
   });
@@ -26,12 +30,14 @@ export default async function FoodDetail({ params }: FoodDetailProps) {
       <Box className="md:col-span-4">
         <FoodDetails food={singleFood} />
       </Box>
-      <Box>
-        <Flex direction="column" gap="4">
-          <EditIssueButton foodId={singleFood.id} />
-          <DeleteFoodButton foodId={singleFood.id} />
-        </Flex>
-      </Box>
+      {session && (
+        <Box>
+          <Flex direction="column" gap="4">
+            <EditIssueButton foodId={singleFood.id} />
+            <DeleteFoodButton foodId={singleFood.id} />
+          </Flex>
+        </Box>
+      )}
     </Grid>
   );
 }

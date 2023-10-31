@@ -6,6 +6,7 @@ import React from "react";
 import { MdFoodBank } from "react-icons/md";
 import classNames from "classnames";
 import { useSession } from "next-auth/react";
+
 import {
   Avatar,
   Box,
@@ -14,6 +15,7 @@ import {
   Flex,
   Text,
 } from "@radix-ui/themes";
+import SkeletonMain from "@/components/Skeleton";
 
 export default function Navbar() {
   return (
@@ -65,7 +67,7 @@ const NavLinks = () => {
 const AuthStatus = () => {
   const { status, data: session } = useSession();
 
-  if (status === "loading") return null;
+  if (status === "loading") return <SkeletonMain />;
 
   if (status === "unauthenticated")
     return (
