@@ -5,9 +5,10 @@ import Link from "@/components/Link";
 import React from "react";
 import FoodActions from "./FoodActions";
 import { Status } from "@prisma/client";
+import Pagination from "@/components/Pagination";
 
 interface FoodsProps {
-  searchParams: { status: Status };
+  searchParams: { status: Status; page: string };
 }
 
 async function Foods({ searchParams }: FoodsProps) {
@@ -16,11 +17,17 @@ async function Foods({ searchParams }: FoodsProps) {
     ? searchParams.status
     : undefined;
 
+  const page = parseInt(searchParams.page) || 1;
+  const pageSize = 10;
+
+  const where = { status };
   const foods = await prisma.food.findMany({
-    where: {
-      status,
-    },
+    where,
+    skip: (page - 1) * pageSize,
+    take: pageSize,
   });
+
+  const foodCount = await prisma.food.count({ where });
 
   return (
     <div>
@@ -59,6 +66,11 @@ async function Foods({ searchParams }: FoodsProps) {
           })}
         </Table.Body>
       </Table.Root>
+      <Pagination
+        pageSize={pageSize}
+        currentPage={page}
+        itemCount={foodCount}
+      />
     </div>
   );
 }
