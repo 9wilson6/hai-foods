@@ -6,7 +6,14 @@ import React from "react";
 import { MdFoodBank } from "react-icons/md";
 import classNames from "classnames";
 import { useSession } from "next-auth/react";
-import { Box, Container, Flex } from "@radix-ui/themes";
+import {
+  Avatar,
+  Box,
+  Container,
+  DropdownMenu,
+  Flex,
+  Text,
+} from "@radix-ui/themes";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -45,7 +52,25 @@ export default function Navbar() {
           </Flex>
           <Box>
             {status === "authenticated" && (
-              <Link href="/api/auth/signout">Logout</Link>
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger>
+                  <Avatar
+                    src={session.user?.image!}
+                    fallback="?"
+                    size="2"
+                    radius="full"
+                    className="cursor-pointer"
+                  />
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content>
+                  <DropdownMenu.Label>
+                    <Text size="2">{session.user?.name}</Text>
+                  </DropdownMenu.Label>
+                  <DropdownMenu.Item color="red">
+                    <Link href="/api/auth/signout">Logout</Link>
+                  </DropdownMenu.Item>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
             )}
 
             {status === "unauthenticated" && (
