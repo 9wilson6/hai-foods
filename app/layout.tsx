@@ -23,17 +23,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.variable}>
-        <QueryClientProvider>
-          <AuthProvider>
-            <Theme appearance="light" accentColor="teal">
-              <Navbar />
+        {/* <QueryClientProvider>
+        </QueryClientProvider> */}
+        <AuthProvider>
+          <Theme appearance="light" accentColor="teal">
+            <Navbar />
 
-              <main className="p-5">
-                <Container>{children}</Container>
-              </main>
-            </Theme>
-          </AuthProvider>
-        </QueryClientProvider>
+            <main className="p-5">
+              <Container>{children}</Container>
+            </main>
+          </Theme>
+        </AuthProvider>
       </body>
     </html>
   );
