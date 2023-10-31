@@ -3,6 +3,7 @@ import { Avatar, Card, Flex, Heading, Table } from "@radix-ui/themes";
 import Link from "next/link";
 import React from "react";
 import FoodStateBadge from "./FoodStatusBadge";
+import Pagination from "./Pagination";
 
 export default async function LatestFoods() {
   const foods = await prisma.food.findMany({

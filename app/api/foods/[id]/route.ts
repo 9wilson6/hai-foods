@@ -57,7 +57,6 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   const session = getServerSession(authOptions);
-
   if (!session) return NextResponse.json({}, { status: 401 });
 
   const food = await prisma.food.findUnique({
