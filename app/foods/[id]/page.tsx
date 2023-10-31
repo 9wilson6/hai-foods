@@ -9,6 +9,7 @@ import FoodDetails from "./FoodDetails";
 import DeleteFoodButton from "./DeleteFoodButton";
 import { getServerSession } from "next-auth";
 import authOptions from "@/lib/authOptions";
+import AssigneeSelect from "./AssigneeSelect";
 
 interface FoodDetailProps {
   params: { id: string };
@@ -32,7 +33,8 @@ export default async function FoodDetail({ params }: FoodDetailProps) {
       </Box>
       {session && (
         <Box>
-          <Flex direction="column" gap="4">
+          <Flex direction="column" gap="5">
+            <AssigneeSelect />
             <EditIssueButton foodId={singleFood.id} />
             <DeleteFoodButton foodId={singleFood.id} />
           </Flex>
