@@ -5,9 +5,13 @@ import { usePathname } from "next/navigation";
 import React from "react";
 import { MdFoodBank } from "react-icons/md";
 import classNames from "classnames";
+import { useSession } from "next-auth/react";
+import { Box } from "@radix-ui/themes";
 
 export default function Navbar() {
   const pathname = usePathname();
+
+  const { status, data: session } = useSession();
 
   return (
     <nav className="flex space-x-6 border-b mb-5 h-14 items-center">
@@ -35,6 +39,15 @@ export default function Navbar() {
             );
           })}
       </ul>
+      <Box>
+        {status === "authenticated" && (
+          <Link href="/api/auth/signout">Logout</Link>
+        )}
+
+        {status === "unauthenticated" && (
+          <Link href="/api/auth/signin">Login</Link>
+        )}
+      </Box>
     </nav>
   );
 }
