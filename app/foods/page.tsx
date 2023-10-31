@@ -4,9 +4,23 @@ import { Table } from "@radix-ui/themes";
 import Link from "@/components/Link";
 import React from "react";
 import FoodActions from "./FoodActions";
+import { Status } from "@prisma/client";
 
-async function Foods() {
-  const foods = await prisma.food.findMany({});
+interface FoodsProps {
+  searchParams: { status: Status };
+}
+
+async function Foods({ searchParams }: FoodsProps) {
+  const statuses = Object.values(Status);
+  const status = statuses.includes(searchParams.status)
+    ? searchParams.status
+    : undefined;
+
+  const foods = await prisma.food.findMany({
+    where: {
+      status,
+    },
+  });
 
   return (
     <div>
