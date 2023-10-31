@@ -1,4 +1,5 @@
 "use client";
+import Spinner from "@/components/Spinner";
 import { AlertDialog, Button, Flex } from "@radix-ui/themes";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -12,13 +13,16 @@ export default function DeleteFoodButton({ foodId }: Props) {
   const router = useRouter();
 
   const [error, setError] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const deleteFood = async () => {
     try {
+      setIsDeleting(true);
       await axios.delete("/api/foods/" + foodId);
       router.push("/foods");
       router.refresh();
     } catch (error) {
+      setIsDeleting(false);
       setError(true);
     }
   };
@@ -26,7 +30,10 @@ export default function DeleteFoodButton({ foodId }: Props) {
     <>
       <AlertDialog.Root>
         <AlertDialog.Trigger>
-          <Button color="red">Delete Food</Button>
+          <Button color="red" disabled={isDeleting}>
+            Delete Food
+            {isDeleting && <Spinner />}
+          </Button>
         </AlertDialog.Trigger>
         <AlertDialog.Content>
           <AlertDialog.Title>Confirm Deletion</AlertDialog.Title>
